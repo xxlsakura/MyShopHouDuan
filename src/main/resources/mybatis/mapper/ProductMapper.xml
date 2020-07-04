@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="src" jdbcType="VARCHAR" property="src" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="typename" jdbcType="VARCHAR" property="typename" />
+    <result column="iscart" jdbcType="VARCHAR" property="iscart" />
+    <result column="inventory" jdbcType="INTEGER" property="inventory" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="paynum" jdbcType="INTEGER" property="paynum" />
+    <result column="addcarttime" jdbcType="TIMESTAMP" property="addcarttime" />
+    <result column="selectedstatus" jdbcType="INTEGER" property="selectedstatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `name`, src, price, typename, iscart, inventory, tag, paynum, addcarttime, selectedstatus
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.ProductExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.ProductExample">
+    delete from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bean.Product" useGeneratedKeys="true">
+    insert into product (`name`, src, price, 
+      typename, iscart, inventory, 
+      tag, paynum, addcarttime, 
+      selectedstatus)
+    values (#{name,jdbcType=VARCHAR}, #{src,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{typename,jdbcType=VARCHAR}, #{iscart,jdbcType=VARCHAR}, #{inventory,jdbcType=INTEGER}, 
+      #{tag,jdbcType=VARCHAR}, #{paynum,jdbcType=INTEGER}, #{addcarttime,jdbcType=TIMESTAMP}, 
+      #{selectedstatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.bean.Product" useGeneratedKeys="true">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="src != null">
+        src,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="typename != null">
+        typename,
+      </if>
+      <if test="iscart != null">
+        iscart,
+      </if>
+      <if test="inventory != null">
+        inventory,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="paynum != null">
+        paynum,
+      </if>
+      <if test="addcarttime != null">
+        addcarttime,
+      </if>
+      <if test="selectedstatus != null">
+        selectedstatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="typename != null">
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="iscart != null">
+        #{iscart,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="paynum != null">
+        #{paynum,jdbcType=INTEGER},
+      </if>
+      <if test="addcarttime != null">
+        #{addcarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selectedstatus != null">
+        #{selectedstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.ProductExample" resultType="java.lang.Long">
+    select count(*) from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update product
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.src != null">
+        src = #{record.src,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.typename != null">
+        typename = #{record.typename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iscart != null">
+        iscart = #{record.iscart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventory != null">
+        inventory = #{record.inventory,jdbcType=INTEGER},
+      </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paynum != null">
+        paynum = #{record.paynum,jdbcType=INTEGER},
+      </if>
+      <if test="record.addcarttime != null">
+        addcarttime = #{record.addcarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.selectedstatus != null">
+        selectedstatus = #{record.selectedstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update product
+    set id = #{record.id,jdbcType=INTEGER},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      src = #{record.src,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      typename = #{record.typename,jdbcType=VARCHAR},
+      iscart = #{record.iscart,jdbcType=VARCHAR},
+      inventory = #{record.inventory,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=VARCHAR},
+      paynum = #{record.paynum,jdbcType=INTEGER},
+      addcarttime = #{record.addcarttime,jdbcType=TIMESTAMP},
+      selectedstatus = #{record.selectedstatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Product">
+    update product
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        src = #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="typename != null">
+        typename = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="iscart != null">
+        iscart = #{iscart,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="paynum != null">
+        paynum = #{paynum,jdbcType=INTEGER},
+      </if>
+      <if test="addcarttime != null">
+        addcarttime = #{addcarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="selectedstatus != null">
+        selectedstatus = #{selectedstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Product">
+    update product
+    set `name` = #{name,jdbcType=VARCHAR},
+      src = #{src,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      typename = #{typename,jdbcType=VARCHAR},
+      iscart = #{iscart,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR},
+      paynum = #{paynum,jdbcType=INTEGER},
+      addcarttime = #{addcarttime,jdbcType=TIMESTAMP},
+      selectedstatus = #{selectedstatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

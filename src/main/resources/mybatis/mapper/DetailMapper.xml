@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.DetailMapper">
+  <resultMap id="BaseResultMap" type="com.bean.Detail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="ssrc1" jdbcType="VARCHAR" property="ssrc1" />
+    <result column="ssrc2" jdbcType="VARCHAR" property="ssrc2" />
+    <result column="ssrc3" jdbcType="VARCHAR" property="ssrc3" />
+    <result column="dsrc1" jdbcType="VARCHAR" property="dsrc1" />
+    <result column="dsrc2" jdbcType="VARCHAR" property="dsrc2" />
+    <result column="dsrc3" jdbcType="VARCHAR" property="dsrc3" />
+    <result column="vsrc" jdbcType="VARCHAR" property="vsrc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `name`, price, ssrc1, ssrc2, ssrc3, dsrc1, dsrc2, dsrc3, vsrc
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.DetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.DetailExample">
+    delete from detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bean.Detail" useGeneratedKeys="true">
+    insert into detail (`name`, price, ssrc1, 
+      ssrc2, ssrc3, dsrc1, 
+      dsrc2, dsrc3, vsrc)
+    values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{ssrc1,jdbcType=VARCHAR}, 
+      #{ssrc2,jdbcType=VARCHAR}, #{ssrc3,jdbcType=VARCHAR}, #{dsrc1,jdbcType=VARCHAR}, 
+      #{dsrc2,jdbcType=VARCHAR}, #{dsrc3,jdbcType=VARCHAR}, #{vsrc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.bean.Detail" useGeneratedKeys="true">
+    insert into detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="ssrc1 != null">
+        ssrc1,
+      </if>
+      <if test="ssrc2 != null">
+        ssrc2,
+      </if>
+      <if test="ssrc3 != null">
+        ssrc3,
+      </if>
+      <if test="dsrc1 != null">
+        dsrc1,
+      </if>
+      <if test="dsrc2 != null">
+        dsrc2,
+      </if>
+      <if test="dsrc3 != null">
+        dsrc3,
+      </if>
+      <if test="vsrc != null">
+        vsrc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="ssrc1 != null">
+        #{ssrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="ssrc2 != null">
+        #{ssrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="ssrc3 != null">
+        #{ssrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc1 != null">
+        #{dsrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc2 != null">
+        #{dsrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc3 != null">
+        #{dsrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="vsrc != null">
+        #{vsrc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.DetailExample" resultType="java.lang.Long">
+    select count(*) from detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ssrc1 != null">
+        ssrc1 = #{record.ssrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssrc2 != null">
+        ssrc2 = #{record.ssrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssrc3 != null">
+        ssrc3 = #{record.ssrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dsrc1 != null">
+        dsrc1 = #{record.dsrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dsrc2 != null">
+        dsrc2 = #{record.dsrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dsrc3 != null">
+        dsrc3 = #{record.dsrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vsrc != null">
+        vsrc = #{record.vsrc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update detail
+    set id = #{record.id,jdbcType=INTEGER},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      ssrc1 = #{record.ssrc1,jdbcType=VARCHAR},
+      ssrc2 = #{record.ssrc2,jdbcType=VARCHAR},
+      ssrc3 = #{record.ssrc3,jdbcType=VARCHAR},
+      dsrc1 = #{record.dsrc1,jdbcType=VARCHAR},
+      dsrc2 = #{record.dsrc2,jdbcType=VARCHAR},
+      dsrc3 = #{record.dsrc3,jdbcType=VARCHAR},
+      vsrc = #{record.vsrc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.Detail">
+    update detail
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="ssrc1 != null">
+        ssrc1 = #{ssrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="ssrc2 != null">
+        ssrc2 = #{ssrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="ssrc3 != null">
+        ssrc3 = #{ssrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc1 != null">
+        dsrc1 = #{dsrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc2 != null">
+        dsrc2 = #{dsrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="dsrc3 != null">
+        dsrc3 = #{dsrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="vsrc != null">
+        vsrc = #{vsrc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.Detail">
+    update detail
+    set `name` = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      ssrc1 = #{ssrc1,jdbcType=VARCHAR},
+      ssrc2 = #{ssrc2,jdbcType=VARCHAR},
+      ssrc3 = #{ssrc3,jdbcType=VARCHAR},
+      dsrc1 = #{dsrc1,jdbcType=VARCHAR},
+      dsrc2 = #{dsrc2,jdbcType=VARCHAR},
+      dsrc3 = #{dsrc3,jdbcType=VARCHAR},
+      vsrc = #{vsrc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
